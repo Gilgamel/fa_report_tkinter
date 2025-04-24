@@ -1,75 +1,60 @@
 # src/database.py
-import logging
-from logging.handlers import RotatingFileHandler
+import psycopg2
 from datetime import datetime
+from config import DATABASE_LOGGER
 
-# 初始化日志配置
-def setup_database_logger():
-    logger = logging.getLogger('database')
-    logger.setLevel(logging.INFO)
-    
-    # 创建日志处理器（100MB轮转，保留3个备份）
-    handler = RotatingFileHandler(
-        'database_audit.log',
-        maxBytes=100*1024*1024,
-        backupCount=3,
-        encoding='utf-8'
-    )
-    
-    # 设置日志格式
-    formatter = logging.Formatter(
-        '%(asctime)s - %(levelname)s - [%(db_host)s:%(db_port)s] - %(message)s'
-    )
-    handler.setFormatter(formatter)
-    
-    logger.addHandler(handler)
-    return logger
-
-# 初始化日志（在类外执行一次）
-db_logger = setup_database_logger()
-
-class DatabaseManager:
+class Database:
     def __init__(self, config):
         self.config = config
-        self._add_connection_log("初始化数据库连接")
-        
-    def _add_connection_log(self, message):
-        """专用方法记录连接日志"""
-        extra = {
-            'db_host': self.config.get('host', 'unknown'),
-            'db_port': self.config.get('port', 'unknown')
+        self._log_operation("SYSTEM", "INIT", "Database connection initialized")
+
+    def _log_operation(self, user, action, details):
+        """统一日志记录方法"""
+        log_entry = {
+            'user': user,
+            'action': action,
+            'host': self.config.get('host'),
+            'port': self.config.get('port'),
+            'database': self.config.get('dbname'),
+            'details': details,
+            'timestamp': datetime.now().isoformat()
         }
-        db_logger.info(message, extra=extra)
-    
-    def connect(self):
-        try:
-            self.connection = psycopg2.connect(**self.config)
-            self._add_connection_log("数据库连接成功")
-        except Exception as e:
-            self._add_connection_log(f"连接失败 - {str(e)}")
-            raise
-    
-    def execute_query(self, query, params=None):
+        DATABASE_LOGGER.info(str(log_entry))
+
+    def execute(self, query, params=None, user="SYSTEM"):
         start_time = datetime.now()
         try:
-            cursor = self.connection.cursor()
-            cursor.execute(query, params)
-            
-            # 记录操作元数据
-            log_data = {
-                'query': query,
-                'params': str(params)[:100],  # 限制参数长度
-                'rows_affected': cursor.rowcount,
-                'duration': (datetime.now() - start_time).total_seconds()
-            }
-            db_logger.info("执行查询成功", extra=log_data)
-            
-            return cursor
+            with psycopg2.connect(**self.config) as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(query, params)
+                    
+                    # 记录成功日志
+                    self._log_operation(
+                        user=user,
+                        action="QUERY_EXECUTE",
+                        details={
+                            'query': query,
+                            'params': self._sanitize_params(params),
+                            'rows_affected': cursor.rowcount,
+                            'duration': (datetime.now() - start_time).total_seconds()
+                        }
+                    )
+                    return cursor.fetchall()
         except Exception as e:
-            log_data = {
-                'query': query,
-                'params': str(params)[:100],
-                'error': str(e)
-            }
-            db_logger.error("执行查询失败", extra=log_data)
+            # 记录错误日志
+            self._log_operation(
+                user=user,
+                action="QUERY_ERROR",
+                details={
+                    'error': str(e),
+                    'query': query,
+                    'params': self._sanitize_params(params)
+                }
+            )
             raise
+
+    def _sanitize_params(self, params):
+        """参数脱敏处理"""
+        if isinstance(params, dict):
+            return {k: '*****' if 'password' in k.lower() else v for k, v in params.items()}
+        return params

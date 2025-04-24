@@ -2,23 +2,28 @@ import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import os
 from datetime import datetime
+from config import USER_ACTION_LOGGER
+import traceback
+import hashlib
+
 
 class FileUploadApp:
     def __init__(self, root):
         self.root = root
         self.root.title("File Upload System")
         self.root.geometry("600x450")
+        self.current_user = "guest"
         
         # Channel database
         self.channel_data = {
-            ("USA", "YouTube"): ["TechReviewUSA", "USNews", "AmericanCooking"],
-            ("USA", "Amazon"): ["US_Deals", "Prime_US", "Amazon_US"],
-            ("UK", "YouTube"): ["UKTech", "BritishNews", "UKCooking"],
-            ("UK", "Amazon"): ["UK_Deals", "Prime_UK", "Amazon_UK"],
-            ("China", "YouTube"): ["ChinaTech", "ChinaNews", "ChineseCooking"],
-            ("China", "TikTok"): ["Douyin_Official", "China_Trends"],
-            ("Japan", "YouTube"): ["JapanTech", "AnimeChannel"],
-            ("Japan", "Amazon"): ["Japan_Deals", "Prime_JP"]
+            ("US", "Amazon"): ["Edifier Online Store", "Ventmere", "Ventmere Refurbished"],
+            ("CA", "Amazon"): ["Edifier Online Store", "Ventmere", "Ventmere Refurbished"],
+            ("MX", "Amazon"): ["UKTech", "BritishNews", "UKCooking"],
+            ("US", "Shopify"): ["UK_Deals", "Prime_UK", "Amazon_UK"],
+            ("CA", "Shopify"): ["JapanTech", "AnimeChannel"],
+            ("US", "Walmart"): ["Walmart"],
+            ("CA", "Walmart"): ["Walmart"],
+            ("JP", "Amazon"): ["Japan_Deals", "Prime_JP"]
         }
         
         # Create main frame
@@ -39,14 +44,14 @@ class FileUploadApp:
         ttk.Label(self.main_frame, text="Country:").grid(row=0, column=0, sticky=tk.W, pady=5)
         self.country_var = tk.StringVar()
         self.country_combo = ttk.Combobox(self.main_frame, textvariable=self.country_var, 
-                                        values=["China", "USA", "UK", "Japan", "Germany"])
+                                        values=["US", "CA", "MX", "JP", "AU"])
         self.country_combo.grid(row=0, column=1, sticky=tk.EW, pady=5, padx=5)
         
         # Platform selection (row 1)
         ttk.Label(self.main_frame, text="Platform:").grid(row=1, column=0, sticky=tk.W, pady=5)
         self.platform_var = tk.StringVar()
         self.platform_combo = ttk.Combobox(self.main_frame, textvariable=self.platform_var, 
-                                        values=["YouTube", "Twitter", "Facebook", "Instagram", "TikTok", "Amazon"])
+                                        values=["Amazon", "Mirakl", "Shopify"])
         self.platform_combo.grid(row=1, column=1, sticky=tk.EW, pady=5, padx=5)
         
         # Channel selection (row 2)
@@ -88,7 +93,7 @@ class FileUploadApp:
         """动态更新界面布局"""
         country = self.country_var.get()
         platform = self.platform_var.get()
-        is_us_amazon = (country == "USA" and platform == "Amazon")
+        is_us_amazon = (country == "US" and platform == "Amazon")
 
         # 清除所有动态组件
         for widget in [self.data_type_label, self.data_type_combo,
@@ -128,8 +133,19 @@ class FileUploadApp:
     def browse_file(self):
         file_path = filedialog.askopenfilename(
             title="Select File",
-            filetypes=[("Excel Files", "*.xlsx"), ("CSV Files", "*.csv"), ("All Files", "*.*")]
+            filetypes=[("Excel Files", "*.xlsx"), ("CSV Files", "*.csv"), ("TXT Files", "*.txt"), ("All Files", "*.*")]
         )
+
+        # add audit log
+        log_data = {
+            "user": self.current_user,
+            "action": "FILE_SELECTION",
+            "file_name": os.path.basename(file_path) if file_path else None,
+            "success": bool(file_path)
+            }
+        USER_ACTION_LOGGER.info("File selection attempt", extra=log_data)
+
+
         if file_path:
             self.file_path_var.set(file_path)
             self.add_log(f"Selected file: {os.path.basename(file_path)}")
@@ -146,49 +162,135 @@ class FileUploadApp:
         platform = self.platform_var.get()
         channel = self.channel_var.get()
         file_path = self.file_path_var.get()
-        data_type = self.data_type_combo.get() if (country == "USA" and platform == "Amazon") else ""
+        data_type = self.data_type_combo.get() if (country == "US" and platform == "Amazon") else ""
+
+        # upload -> audit start
+        upload_start_time = datetime.now()
+        audit_data = {
+            "user": self.current_user,
+            "user_action": "UPLOAD_STARTED",
+            "country": country,
+            "platform": platform,
+            "channel": channel,
+            "data_type": data_type,
+            "file_name": os.path.basename(file_path) if file_path else None
+        }
+        USER_ACTION_LOGGER.info("Upload process initiated", extra=audit_data)        
+
 
         # Validation
         error_msg = []
         if not all([country, platform, channel, file_path]):
             error_msg.append("Please fill all required fields")
-        if country == "USA" and platform == "Amazon" and not data_type:
+        if country == "US" and platform == "Amazon" and not data_type:
             error_msg.append("Data Type is required for US Amazon")
             
         if error_msg:
+        # =========== 新增：验证失败审计 ===========
+            error_audit = audit_data.copy()
+            error_audit.update({
+                "action": "VALIDATION_FAILED",
+                "errors": error_msg,
+                "missing_fields": {
+                "country": not bool(country),
+                "platform": not bool(platform),
+                "channel": not bool(channel),
+                "file": not bool(file_path),
+                "data_type": (country == "US" and platform == "Amazon" and not data_type)
+                }
+            })
+            USER_ACTION_LOGGER.warning("Upload validation failed", extra=error_audit)
+        # ========================================
             messagebox.showerror("Error", "\n".join(error_msg))
             return
             
         if not os.path.exists(file_path):
+            # =========== 新增：文件不存在审计 ===========
+            file_error = audit_data.copy()
+            file_error.update({
+                "action": "FILE_NOT_FOUND",
+                  "file_path": file_path
+                  })
+            USER_ACTION_LOGGER.error("File not found", extra=file_error)
+        # ========================================            
             messagebox.showerror("Error", "File does not exist")
             return
             
         if self.check_duplicate_upload(country, platform, channel, file_path):
+            # =========== 新增：重复上传审计 ===========
+            dup_audit = audit_data.copy()
+            dup_audit["action"] = "DUPLICATE_UPLOAD"
+            USER_ACTION_LOGGER.warning("Duplicate upload detected", extra=dup_audit)
+        # ========================================            
             messagebox.showwarning("Warning", "Duplicate upload detected")
             return
             
         try:
             self.add_log(f"Uploading {file_path}...")
+
+            # =========== 新增：上传进度审计 ===========
+            progress_audit = audit_data.copy()
+            def log_progress(message):
+                progress_audit["stage"] = message
+                USER_ACTION_LOGGER.info("Upload progress", extra=progress_audit)
+            # ========================================
+
             # Simulate upload process
-            self.root.after(1000, lambda: self.add_log("Processing data..."))
-            self.root.after(2000, lambda: self.add_log("Validation passed"))
-            self.root.after(3000, lambda: self.add_log("Writing to database..."))
+            self.root.after(1000, lambda: [self.add_log("Processing data..."), log_progress("PROCESSING")])
+            self.root.after(2000, lambda: [self.add_log("Validation passed"), log_progress("VALIDATING")])
+            self.root.after(3000, lambda: [self.add_log("Writing to database..."), log_progress("WRITING_TO_DB")])
             
             # Record upload
             self.record_upload_history(country, platform, channel, file_path, data_type)
             
+            # =========== 新增：上传成功审计 ===========
+            success_audit = audit_data.copy()
+            success_audit.update({
+                "user_action": "UPLOAD_SUCCESS",
+                "duration_sec": (datetime.now() - upload_start_time).total_seconds(),
+                "file_size": os.path.getsize(file_path),
+                "file_hash": self.calculate_file_hash(file_path),  # 需要实现哈希计算方法
+                "timestamp": datetime.now().isoformat()
+                })
+            USER_ACTION_LOGGER.info("Upload completed successfully", extra=success_audit)
+            # ========================================
+
+
             messagebox.showinfo("Success", "Upload completed successfully")
             self.add_log("Upload finished")
         except Exception as e:
+
+            # =========== 新增：上传失败审计 ===========
+            error_audit = audit_data.copy()
+            error_audit.update({
+                "user_action": "UPLOAD_FAILED",
+                "error_type": type(e).__name__,
+                "error_msg": str(e),
+                "duration_sec": (datetime.now() - upload_start_time).total_seconds(),
+                "traceback": str(traceback.format_exc())
+                })
+            USER_ACTION_LOGGER.error("Upload failed with exception", extra=error_audit)
+            # ========================================
+
             messagebox.showerror("Error", f"Upload failed: {str(e)}")
             self.add_log(f"Upload error: {str(e)}")
+    
+    def calculate_file_hash(self, file_path, algorithm='sha256'):
+        hasher = hashlib.new(algorithm)
+        with open(file_path, 'rb') as f:
+            while True:
+                chunk = f.read(65536)  # 64KB chunks
+                if not chunk:
+                    break
+                hasher.update(chunk)
+        return hasher.hexdigest()
 
     def check_duplicate_upload(self, country, platform, channel, file_path):
         return False  # Implement actual duplicate check
 
     def record_upload_history(self, country, platform, channel, file_path, data_type):
-        filename = os.path.basename(file_path)
-        log_msg = f"Uploaded {filename} to {country}/{platform}/{channel}"
+        file_name = os.path.basename(file_path)
+        log_msg = f"Uploaded {file_name} to {country}/{platform}/{channel}"
         if data_type:
             log_msg += f" ({data_type})"
         self.add_log(log_msg)

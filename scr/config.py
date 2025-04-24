@@ -1,11 +1,51 @@
 import os
 from dotenv import load_dotenv
 import sys
+import logging
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
-# 修正路径：确保 .env 文件位置正确
+# load .env
 dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
 load_dotenv(dotenv_path)
 
+# log config
+# create folder to store log file
+LOG_DIR = Path(__file__).parent.parent / "logs"
+LOG_DIR.mkdir(exist_ok=True)
+
+def setup_audit_logger(name, log_file):
+    """审计日志专用配置"""
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    
+    # 防止重复添加handler
+    if logger.handlers:
+        return logger
+    
+    # 配置日志格式（包含时间戳、操作类型、用户信息）
+    formatter = logging.Formatter(
+        '%(asctime)s - %(levelname)s - [%(user)s] - %(user_action)s - %(message)s'
+    )
+    
+    # 文件处理器（每个日志文件最大100MB，保留3个备份）
+    handler = RotatingFileHandler(
+        LOG_DIR / log_file,
+        maxBytes=100*1024*1024,
+        backupCount=3,
+        encoding='utf-8'
+    )
+    handler.setFormatter(formatter)
+    
+    logger.addHandler(handler)
+    return logger
+
+# initial 
+DATABASE_AUDIT_LOGGER = setup_audit_logger('database_audit', 'database_audit.log')
+USER_ACTION_LOGGER = setup_audit_logger('user_action', 'user_actions.log')
+
+
+# database config
 class DatabaseConfig:
     # 基础配置
     HOST = os.getenv("DB_HOST", "lin-28498-11503-pgsql-primary.servers.linodedb.net")
