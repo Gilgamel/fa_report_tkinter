@@ -133,7 +133,7 @@ class FileUploadApp:
     def browse_file(self):
         file_path = filedialog.askopenfilename(
             title="Select File",
-            filetypes=[("Excel Files", "*.xlsx"), ("CSV Files", "*.csv"), ("TXT Files", "*.txt"), ("All Files", "*.*")]
+            filetypes=[("TXT Files", "*.txt"), ("CSV Files", "*.csv"), ("Excel Files", "*.xlsx"), ("All Files", "*.*")]
         )
 
         # add audit log
