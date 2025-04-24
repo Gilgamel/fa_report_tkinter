@@ -1,8 +1,6 @@
-# config.example.py
-DB_CONFIG = {
-    "host": "localhost",
-    "database": "your_db_name",
-    "user": "your_username",
-    "password": "your_password",
-    "port": "5432"
-}
+# 提供给其他开发者的示例文件
+class DatabaseConfigExample:
+    HOST = "localhost"
+    PORT = 5432
+    DB_NAME = "my_app_db"
+    # USER 和 PASSWORD 留空，由使用者自行配置

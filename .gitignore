@@ -1,0 +1,8 @@
+# 忽略敏感文件
+.env
+config.py
+__pycache__/
+
+# 忽略IDE文件
+.vscode/
+.idea/
