@@ -1,0 +1,30 @@
+# 国家配置（使用标准ISO 2字母代码）
+countries:
+  - US  # 美国
+  - CA  # 加拿大
+
+
+# 支持的平台列表
+platforms:
+  - Amazon
+  - Shopify
+  - Mirakl
+  - Walmart
+
+# 数据类型分类
+data_types:
+  - invoiced
+  - standard
+
+# 渠道配置（按国家->平台层级）
+channels:
+  US:
+    Amazon:
+      - Edifier Online Store
+      - Ventmere
+      - Ventmere Refurbished
+  CA:
+    Amazon:
+      - Edifier Online Store
+      - Ventmere
+      - Ventmere Refurbished

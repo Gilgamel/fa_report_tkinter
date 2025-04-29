@@ -1,0 +1,24 @@
+2025-04-29 17:06:20,828 - DBManager - INFO - 🚀 启动数据库管理器
+2025-04-29 17:06:20,829 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-29 17:06:21,047 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-29 17:06:21,047 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-29 17:06:21,048 - DBManager - CRITICAL - ‼️ 初始化失败: 'DatabaseManager' object has no attribute 'create_hierarchy'
+2025-04-29 17:10:18,611 - DBManager - INFO - 🚀 启动数据库管理器
+2025-04-29 17:10:18,611 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-29 17:10:18,868 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-29 17:10:18,869 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-29 17:10:18,869 - DBManager - CRITICAL - ‼️ 初始化失败: 'DatabaseManager' object has no attribute 'create_hierarchy'
+2025-04-29 17:24:52,207 - DBManager - INFO - 🚀 启动数据库初始化
+2025-04-29 17:24:52,207 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-29 17:24:52,338 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-29 17:24:52,341 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-29 17:24:53,712 - DBManager - INFO - 🗃️ 数据库分层结构创建完成
+2025-04-29 17:24:53,713 - DBManager - INFO - ✅ 数据库初始化完成
+2025-04-29 17:24:53,720 - DBManager - INFO - 数据库连接已关闭
+2025-04-29 17:25:02,964 - DBManager - INFO - 🚀 启动数据库初始化
+2025-04-29 17:25:02,964 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-29 17:25:03,048 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-29 17:25:03,048 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-29 17:25:04,251 - DBManager - INFO - 🗃️ 数据库分层结构创建完成
+2025-04-29 17:25:04,251 - DBManager - INFO - ✅ 数据库初始化完成
+2025-04-29 17:25:04,256 - DBManager - INFO - 数据库连接已关闭

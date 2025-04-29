@@ -8,3 +8,15 @@
 2025-04-24 16:44:09,120 - INFO - [guest] - UPLOAD_STARTED - Upload progress
 2025-04-24 16:44:10,115 - INFO - [guest] - UPLOAD_STARTED - Upload progress
 2025-04-24 16:44:11,114 - INFO - [guest] - UPLOAD_STARTED - Upload progress
+2025-04-29 14:07:03,656 - INFO - [guest] - UPLOAD_STARTED - Upload process initiated
+2025-04-29 14:07:03,665 - WARNING - [guest] - UPLOAD_STARTED - Upload validation failed
+2025-04-29 14:07:21,312 - INFO - [guest] - UPLOAD_STARTED - Upload process initiated
+2025-04-29 14:07:21,338 - INFO - [guest] - UPLOAD_SUCCESS - Upload completed successfully
+2025-04-29 14:07:22,326 - INFO - [guest] - UPLOAD_STARTED - Upload progress
+2025-04-29 14:07:23,330 - INFO - [guest] - UPLOAD_STARTED - Upload progress
+2025-04-29 14:07:24,329 - INFO - [guest] - UPLOAD_STARTED - Upload progress
+2025-04-29 16:11:44,104 - INFO - [guest] - UPLOAD_STARTED - Upload process initiated
+2025-04-29 16:11:44,128 - INFO - [guest] - UPLOAD_SUCCESS - Upload completed successfully
+2025-04-29 16:11:45,107 - INFO - [guest] - UPLOAD_STARTED - Upload progress
+2025-04-29 16:11:46,116 - INFO - [guest] - UPLOAD_STARTED - Upload progress
+2025-04-29 16:11:47,117 - INFO - [guest] - UPLOAD_STARTED - Upload progress
