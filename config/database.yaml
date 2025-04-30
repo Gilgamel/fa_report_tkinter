@@ -15,6 +15,7 @@ platforms:
 data_types:
   - invoiced
   - standard
+  - unknown
 
 # 渠道配置（按国家->平台层级）
 channels:
@@ -28,3 +29,4 @@ channels:
       - Edifier Online Store
       - Ventmere
       - Ventmere Refurbished
+

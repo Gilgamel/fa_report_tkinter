@@ -22,3 +22,131 @@
 2025-04-29 17:25:04,251 - DBManager - INFO - 🗃️ 数据库分层结构创建完成
 2025-04-29 17:25:04,251 - DBManager - INFO - ✅ 数据库初始化完成
 2025-04-29 17:25:04,256 - DBManager - INFO - 数据库连接已关闭
+2025-04-30 11:59:03,399 - DBManager - INFO - 🚀 Starting database initialization
+2025-04-30 11:59:03,400 - DBManager - INFO - Connecting to: host=None, port=None, dbname=None, user=report
+2025-04-30 11:59:07,486 - DBManager - ERROR - ❌ Connection failed: Connection refused at None:None
+2025-04-30 11:59:07,487 - DBManager - CRITICAL - ‼️ Critical failure: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2025-04-30 11:59:29,279 - DBManager - INFO - 🚀 启动数据库初始化
+2025-04-30 11:59:29,279 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-30 11:59:29,422 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-30 11:59:29,422 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-30 11:59:31,276 - DBManager - INFO - 🗃️ 数据库分层结构创建完成
+2025-04-30 11:59:31,277 - DBManager - INFO - ✅ 数据库初始化完成
+2025-04-30 11:59:31,281 - DBManager - INFO - 数据库连接已关闭
+2025-04-30 12:01:18,598 - DBManager - INFO - 🚀 Starting database initialization
+2025-04-30 12:01:18,599 - DBManager - CRITICAL - ‼️ Critical failure: name 'DatabaseConfig' is not defined
+2025-04-30 12:07:32,191 - DBManager - INFO - 🚀 启动数据库初始化
+2025-04-30 12:07:32,192 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-30 12:07:32,317 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-30 12:07:32,317 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-30 12:07:34,029 - DBManager - INFO - 🗃️ 数据库分层结构创建完成
+2025-04-30 12:07:34,030 - DBManager - INFO - ✅ 数据库初始化完成
+2025-04-30 12:07:34,036 - DBManager - INFO - 数据库连接已关闭
+2025-04-30 12:11:44,284 - DBManager - INFO - 🚀 启动数据库初始化
+2025-04-30 12:11:44,284 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-30 12:11:44,427 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-30 12:11:44,427 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-30 12:11:44,427 - DBManager - CRITICAL - ‼️ 初始化失败: 'DatabaseManager' object has no attribute 'create_hierarchy'
+2025-04-30 12:15:59,752 - DBManager - INFO - 🚀 启动数据库初始化
+2025-04-30 12:15:59,752 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-30 12:15:59,873 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-30 12:15:59,873 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-30 12:16:00,009 - DBManager - ERROR - SQL执行错误: partition "country_US_Amazon_Edifier_Online_Store" would overlap partition "country_US_Amazon_Edifier Online Store"
+LINE 4:                     FOR VALUES IN ('Edifier Online Store')
+                                           ^
+
+2025-04-30 12:16:00,010 - DBManager - ERROR - 创建分区失败: partition "country_US_Amazon_Edifier_Online_Store" would overlap partition "country_US_Amazon_Edifier Online Store"
+LINE 4:                     FOR VALUES IN ('Edifier Online Store')
+                                           ^
+
+2025-04-30 12:16:00,011 - DBManager - ERROR - 创建表结构失败: partition "country_US_Amazon_Edifier_Online_Store" would overlap partition "country_US_Amazon_Edifier Online Store"
+LINE 4:                     FOR VALUES IN ('Edifier Online Store')
+                                           ^
+
+2025-04-30 12:16:00,012 - DBManager - CRITICAL - ‼️ 初始化失败: partition "country_US_Amazon_Edifier_Online_Store" would overlap partition "country_US_Amazon_Edifier Online Store"
+LINE 4:                     FOR VALUES IN ('Edifier Online Store')
+                                           ^
+
+2025-04-30 12:16:00,020 - DBManager - INFO - 数据库连接已关闭
+2025-04-30 12:20:48,082 - DBManager - INFO - 🚀 启动数据库初始化
+2025-04-30 12:20:48,086 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-30 12:20:48,233 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-30 12:20:48,234 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-30 12:20:50,155 - DBManager - INFO - 🗃️ 数据库分层结构创建完成
+2025-04-30 12:20:50,156 - DBManager - INFO - ✅ 数据库初始化完成
+2025-04-30 12:20:50,168 - DBManager - INFO - 数据库连接已关闭
+2025-04-30 12:21:39,291 - DBManager - INFO - 🚀 启动数据库初始化
+2025-04-30 12:21:39,291 - DBManager - INFO - 连接参数: host=lin-28498-11503-pgsql-primary.servers.linodedb.net, port=5432, dbname=s2report, user=report
+2025-04-30 12:21:39,437 - DBManager - INFO - ✅ 数据库连接成功
+2025-04-30 12:21:39,438 - DBManager - INFO - 数据库管理器初始化完成
+2025-04-30 12:21:41,236 - DBManager - INFO - 🗃️ 数据库分层结构创建完成
+2025-04-30 12:21:41,236 - DBManager - INFO - ✅ 数据库初始化完成
+2025-04-30 12:21:41,240 - DBManager - INFO - 数据库连接已关闭
+2025-04-30 14:27:59,882 - user_action - INFO - File selection attempt
+2025-04-30 14:28:00,616 - user_action - INFO - 上传流程启动
+2025-04-30 14:28:00,774 - user_action - ERROR - 上传异常
+2025-04-30 14:29:19,055 - user_action - INFO - File selection attempt
+2025-04-30 14:29:19,650 - user_action - INFO - 上传流程启动
+2025-04-30 14:29:19,776 - user_action - ERROR - 上传异常
+2025-04-30 14:44:06,165 - user_action - INFO - File selection attempt
+2025-04-30 14:44:06,823 - user_action - INFO - 上传流程启动
+2025-04-30 14:44:06,995 - DBManager - INFO - Connected to None:None
+2025-04-30 14:44:07,025 - DBManager - ERROR - Duplicate check failed: relation "upload_history" does not exist
+LINE 1: SELECT EXISTS(SELECT 1 FROM upload_history WHERE file_hash =...
+                                    ^
+
+2025-04-30 14:44:07,026 - DBManager - INFO - Database connection closed
+2025-04-30 14:44:07,125 - DBManager - INFO - Connected to None:None
+2025-04-30 14:44:07,153 - DBManager - ERROR - History record failed: relation "upload_history" does not exist
+LINE 2:                 INSERT INTO upload_history 
+                                    ^
+
+2025-04-30 14:44:07,154 - DBManager - INFO - Database connection closed
+2025-04-30 14:44:07,156 - user_action - ERROR - 上传异常
+2025-04-30 15:00:22,436 - DBManager - INFO - Initializing database...
+2025-04-30 15:00:22,583 - DBManager - INFO - Connected to None:None
+2025-04-30 15:00:22,703 - DBManager - ERROR - Partition creation failed: partition "country_us" would overlap partition "country_US"
+LINE 3: ...       PARTITION OF "transactions" FOR VALUES IN ('US') PART...
+                                                             ^
+
+2025-04-30 15:00:22,704 - DBManager - ERROR - Schema creation failed: partition "country_us" would overlap partition "country_US"
+LINE 3: ...       PARTITION OF "transactions" FOR VALUES IN ('US') PART...
+                                                             ^
+
+2025-04-30 15:00:22,704 - DBManager - CRITICAL - Initialization failed: partition "country_us" would overlap partition "country_US"
+LINE 3: ...       PARTITION OF "transactions" FOR VALUES IN ('US') PART...
+                                                             ^
+
+2025-04-30 15:01:21,965 - DBManager - INFO - Initializing database...
+2025-04-30 15:01:22,123 - DBManager - INFO - Connected to None:None
+2025-04-30 15:01:22,225 - DBManager - ERROR - Partition creation failed: partition "country_us" would overlap partition "country_US"
+LINE 3: ...       PARTITION OF "transactions" FOR VALUES IN ('US') PART...
+                                                             ^
+
+2025-04-30 15:01:22,226 - DBManager - ERROR - Schema creation failed: partition "country_us" would overlap partition "country_US"
+LINE 3: ...       PARTITION OF "transactions" FOR VALUES IN ('US') PART...
+                                                             ^
+
+2025-04-30 15:01:22,227 - DBManager - CRITICAL - Initialization failed: partition "country_us" would overlap partition "country_US"
+LINE 3: ...       PARTITION OF "transactions" FOR VALUES IN ('US') PART...
+                                                             ^
+
+2025-04-30 15:05:45,984 - DBManager - INFO - Initializing database...
+2025-04-30 15:05:46,102 - DBManager - INFO - Connected to None:None
+2025-04-30 15:05:48,161 - DBManager - INFO - Database schema initialized
+2025-04-30 15:05:48,162 - DBManager - INFO - Database initialization completed
+2025-04-30 15:07:17,679 - user_action - INFO - File selection attempt
+2025-04-30 15:07:18,460 - user_action - INFO - 上传流程启动
+2025-04-30 15:07:18,620 - DBManager - INFO - Connected to None:None
+2025-04-30 15:07:18,640 - DBManager - INFO - Database connection closed
+2025-04-30 15:07:18,744 - DBManager - INFO - Connected to None:None
+2025-04-30 15:07:18,996 - DBManager - INFO - Database connection closed
+2025-04-30 15:12:21,164 - user_action - INFO - File selection attempt
+2025-04-30 15:12:25,473 - user_action - INFO - 上传流程启动
+2025-04-30 15:12:25,663 - DBManager - INFO - Connected to None:None
+2025-04-30 15:12:25,690 - DBManager - INFO - Database connection closed
+2025-04-30 15:12:25,690 - user_action - WARNING - 重复文件检测

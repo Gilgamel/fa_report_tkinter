@@ -45,6 +45,13 @@ def setup_audit_logger(name: str, log_file: str) -> logging.Logger:
     logger.addHandler(file_handler)
     return logger
 
+
+# -------------------------
+# 初始化日志记录器（关键修改：移到此处）
+# -------------------------
+DATABASE_AUDIT_LOGGER = setup_audit_logger('database_audit', 'database_audit.log')
+USER_ACTION_LOGGER = setup_audit_logger('user_action', 'user_actions.log')
+
 # -------------------------
 # 数据库配置类
 # -------------------------
@@ -130,8 +137,8 @@ def print_config_summary():
 
 if __name__ == "__main__":
     # 初始化日志
-    DATABASE_AUDIT_LOGGER = setup_audit_logger('database_audit', 'database_audit.log')
-    USER_ACTION_LOGGER = setup_audit_logger('user_action', 'user_actions.log')
+    #DATABASE_AUDIT_LOGGER = setup_audit_logger('database_audit', 'database_audit.log')
+    #USER_ACTION_LOGGER = setup_audit_logger('user_action', 'user_actions.log')
 
     # 执行验证
     print_config_summary()
