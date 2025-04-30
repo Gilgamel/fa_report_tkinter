@@ -1,0 +1,85 @@
+# config/platforms/amazon.yaml
+name: "Amazon"
+file_type: "txt"  # 支持 csv/txt/xlsx
+delimiter: "\t"   # 分隔符
+encoding: "utf-8"
+
+# 字段映射配置
+columns:
+  - name: "settlement-id"
+    db_field: "settlement_id"
+    type: "VARCHAR(20)"
+    required: true
+    
+  - name: "transaction-type"
+    db_field: "transaction-type"
+    type: "VARCHAR(20)"
+
+  - name: "order-id"
+    db_field: "order-id"
+    type: "VARCHAR(50)"  
+
+  - name: "merchant-order-id"
+    db_field: "merchant-order-id"
+    type: "VARCHAR(50)"   
+
+  - name: "shipment-id"
+    db_field: "shipment-id"
+    type: "VARCHAR(20)"
+
+  - name: "marketplace-name"
+    db_field: "marketplace-name"
+    type: "VARCHAR(20)"
+
+  - name: "amount-type"
+    db_field: "amount-type"
+    type: "VARCHAR(50)"
+
+  - name: "amount-description"
+    db_field: "amount-description"
+    type: "VARCHAR(50)"    
+
+  - name: "amount"
+    db_field: "amount"
+    type: "NUMERIC(12,2)"
+
+  - name: "posted-date"
+    db_field: "posted-date"
+    type: "DATE"
+    format: "%Y-%m-%d"  
+
+  - name: "sku"
+    db_field: "sku"
+    type: "VARCHAR"
+
+  - name: "quantity-purchased"
+    db_field: "quantity-purchased"
+    type: "NUMERIC(12,2)"
+
+  - pattern: ".*"  # 
+    db_field: "raw_data"
+    type: "JSONB"
+    action: "collect_remaining"
+
+    
+# 数据库配置
+table_schema: |
+  CREATE TABLE IF NOT EXISTS {table_name} (
+    id SERIAL PRIMARY KEY,
+    country_code CHAR(2),
+    platform VARCHAR(20),
+    channel VARCHAR(50),
+    settlement_id VARCHAR(20),
+    transaction-type VARCHAR(20),
+    order-id VARCHAR(50),
+    merchant-order-id VARCHAR(50),
+    shipment-id VARCHAR(20),
+    marketplace-name VARCHAR(20),
+    amount-type VARCHAR(20),
+    amount-description VARCHAR(50),
+    amount NUMERIC(12,2),
+    posted-date DATE NOT NULL,
+    sku VARCHAR,
+    quantity-purchased NUMERIC(12,2),
+    raw_data JSONB
+  )
